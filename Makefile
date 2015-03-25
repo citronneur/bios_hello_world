@@ -14,7 +14,7 @@ BOOT 		= src/boot.asm
 
 all: $(IMAGE)
 
-$(IMAGE): $(BOOT) $(KERNEL) $(GAME)
+$(IMAGE): $(BOOT)
 	$(NASM) -isrc/ -f bin -o $(IMAGE) $(BOOT)
 
 qemu:
