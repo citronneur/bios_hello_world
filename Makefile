@@ -11,10 +11,12 @@ ISO 		= build/$(NAME).iso
 ISO_DIR 	= build/iso
 
 BOOT 		= src/boot.asm
+SRC		=	src/io.asm\
+			src/disk.asm
 
 all: $(IMAGE)
 
-$(IMAGE): $(BOOT)
+$(IMAGE): $(BOOT) $(SRC)
 	$(NASM) -isrc/ -f bin -o $(IMAGE) $(BOOT)
 
 qemu:
