@@ -1,15 +1,14 @@
 ;io.asm - Console like print function
 
-;print - print a string terminated by zero
+;io_print - io_print a string terminated by zero
 ;void print(char* s)
-print:
+io_print:
 	push bp
-	mov bp, sp
-	push si
 	push ax
 	push bx
+	mov bp, sp
 
-	mov si, [bp + 4]
+	mov si, [bp + 8]
 .loop:
 	lodsb
 
@@ -22,31 +21,24 @@ print:
 	
 	jmp .loop
 .end:
+	mov sp, bp
 	pop bx
 	pop ax
-	pop si
-
-	mov sp, bp
 	pop bp
 	ret
 
-;println - print string and apply line return at the end
-;void println(char* s)
-println:
+;io_new_line - set cursor to a new line
+;void io_new_line(void)
+io_new_line:
 	push bp
-	mov bp, sp
 	push ax
 	push bx
-	push cx
 	push dx
+	mov bp, sp
 	
-	mov ax, [bp + 4]
-	push ax
-	call print
-
 	;read cursor postion
 	mov ah, 03h
-	mov bh, 0
+	mov bx, 0
 	int 10h
 
 	;dh row number
@@ -58,13 +50,29 @@ println:
 	mov dl, 0
 	
 	mov ah, 02h
-	mov bh, 0
+	mov bx, 0
 	int 10h	
 	
-	pop dx
-	pop cx
-	pop bx
-	pop ax	
 	mov sp, bp
+	pop dx
+	pop bx
+	pop ax
+	pop bp
+	ret
+
+;io_println - print string follow by a new line
+;void io_println(char* s);
+io_println:
+	push bp
+	push ax
+	mov bp, sp
+	
+	mov ax, [bp + 6]
+	push ax
+	call io_print
+	call io_new_line
+
+	mov sp, bp
+	pop ax
 	pop bp
 	ret

@@ -2,7 +2,7 @@ NASM 		= nasm
 QEMU 		= qemu-system-i386
 QEMU_DRIVE 	= a
 
-NAME 		= hash_x86
+NAME 		= tetris
 FILENAME 	= $(NAME).img
 
 IMAGE 		= build/$(FILENAME)
@@ -12,7 +12,7 @@ ISO_DIR 	= build/iso
 
 BOOT 		= src/boot.asm
 SRC		=	src/io.asm\
-			src/disk.asm
+			src/drive.asm
 
 all: $(IMAGE)
 
