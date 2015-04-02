@@ -10,8 +10,6 @@ org 0
 %include 'io.asm'
 %include 'drive.asm'
 
-boot_start_message: db 'Booting Tetris...', 0
-
 load:
 	;init all segment with first sector
 	mov ax, cs
@@ -26,9 +24,6 @@ load:
 	mov ss, ax
 	mov sp, STACK_SIZE * SEGMENT_SIZE
 	
-	push boot_start_message
-	call io_println
-	
 	;dl contain the actual drive number
 	push dx
 	call drive_reset
@@ -40,7 +35,8 @@ load:
 
 times 510 - ($ - $$) db 0 ; fill 512 bytes with zero	
 dw 0xAA55 ; boot signature
+
+%include 'display.asm'
 start:
-	push boot_start_message
-	call io_println
+	call display_enable
 times (SECTORS * SECTOR_SIZE * SEGMENT_SIZE) - ($ - $$) db 0 ; fill rest of image with zero
